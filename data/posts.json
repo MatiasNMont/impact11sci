@@ -12,7 +12,7 @@
       "content": "Gracias por pasar por **Impact11sci**. Cada semana vas a encontrar noticias de tecnología, IA y tutoriales simples. Si querés algún tema puntual, escribime por correo.\\n\\n- Publicaciones semanales.\\n- Lecturas cortas.\\n- Guías paso a paso."
     },
     {
-      "title": "3 ideas para empezar con IA *hoy*",
+      "title": "¿Por qué todo en la Inteligencia Artificial son vectores (y qué significa eso realmente)?",
       "date": "2025-10-22",
       "tags": [
         "IA",
@@ -20,7 +20,7 @@
       ],
       "cover": "",
       "excerpt": "Pequeños hábitos que multiplican resultados: resúmenes, estructura de ideas y checklists inteligentes.",
-      "content": "Empezá por lo simple: 1) **Resúmenes** de artículos largos en 5 bullets, 2) **Esqueleto** de un post o presentación antes de escribir, 3) **Checklist** reutilizable para tareas repetitivas.\\n\\n> Lo importante es *sistematizar*.\\n\\n- Probá 15 minutos por día.\\n- Medí qué te ahorra más tiempo."
+      "contentPath": "blogs/01_vectors.md"
     }
   ]
 }

@@ -66,7 +66,7 @@
         card.append(cover, box); grid.appendChild(card);
       });
     }
-    fetchWithFallback('../data/news.json','news-fallback').then(r=>r.json()).then(json=>{ NEWS = json.news; renderNews(); });
+    fetch('../data/news.json').then(r=>r.json()).then(json=>{ NEWS = json.news; renderNews(); });
   </script>
 
   <footer>
@@ -89,35 +89,5 @@
     </article>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-
-  <script id="news-fallback" type="application/json">
-{
-  "news": [
-    {
-      "title": "Lanzamiento de una nueva herramienta de IA open-source",
-      "date": "2025-10-21",
-      "tags": [
-        "IA",
-        "Open Source"
-      ],
-      "cover": "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop",
-      "excerpt": "La comunidad lanzó un framework ligero para prototipar agentes.",
-      "body": "La herramienta promete **rápidos prototipos** y conectores simples. Ideal para aprender y experimentar."
-    },
-    {
-      "title": "Tendencias DevOps: observabilidad + costo",
-      "date": "2025-10-20",
-      "tags": [
-        "DevOps",
-        "Observabilidad"
-      ],
-      "cover": "",
-      "excerpt": "La conversación se mueve hacia medir *valor* y *costo* de cada servicio.",
-      "body": "Sistemas con **dashboards de costo** y KPIs de impacto ambiental ganan relevancia. Buen momento para auditar tu stack."
-    }
-  ]
-}
-  </script>
-
 </body>
 </html>

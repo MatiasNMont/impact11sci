@@ -59,14 +59,68 @@
       items.forEach(p=>{
         const card = document.createElement('article'); card.className='card';
         const cover = document.createElement('a'); cover.className='cover'; cover.style.backgroundImage = p.cover ? `url("${p.cover}")` : 'linear-gradient(135deg, rgba(122,168,255,.25), rgba(164,123,255,.25))';
-        cover.href='#'; cover.onclick=(e)=>{e.preventDefault(); openReader(p);};
+        cover.href='#'; cover.onclick=(e)=>{e.preventDefault(); openPost(p);};
         const box = document.createElement('div'); box.className='content';
         const meta = `<div class="meta"><span>${fmtDate(p.date)}</span>·<span>${(p.tags||[]).join(' • ')}</span></div>`;
         box.innerHTML = meta + `<h3 class="title">${p.title}</h3><p class="excerpt">${p.excerpt||''}</p>`;
         card.append(cover, box); grid.appendChild(card);
       });
     }
-    fetchWithFallback('../data/posts.json','posts-fallback').then(r=>r.json()).then(json=>{ POSTS = json.posts; renderBlogs(); });
+    fetch('../data/posts.json').then(r=>r.json()).then(json=>{ POSTS = json.posts; renderBlogs(); });
+    async function fetchText(url) {
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.text();
+  }
+
+  // Convierte markdown básico a HTML (puede ser tu miniMarkdown si ya lo tenés)
+  function mdToHtml(md = '') {
+    // Si ya tenés miniMarkdown, podés reemplazar por esa función:
+    // return miniMarkdown(md);
+    return md
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/`(.+?)`/g,'<code>$1</code>')
+      .replace(/^#{1,6}\s*(.+)$/gm,'<h3>$1</h3>')       // titulares simples
+      .replace(/^- (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/gs,'<ul>$1</ul>')
+      .replace(/\n{2,}/g,'</p><p>')
+      .replace(/\n/g,'<br>')
+      .replace(/^(.+)$/,'<p>$1</p>');
+  }
+
+  // Carga el .md si existe contentPath; si no, usa content inline
+  async function resolvePostBody(post) {
+    if (post.contentPath) {
+      try {
+        const md = await fetchText(post.contentPath);
+        post._resolvedBody = md;     // cache en memoria
+      } catch (e) {
+        console.error('No pude cargar el MD:', post.contentPath, e);
+        post._resolvedBody = post.content || '';
+      }
+    } else {
+      post._resolvedBody = post.content || '';
+    }
+  }
+
+  // Abre el lector (modal) leyendo el .md cuando corresponde
+  async function openPost(post) {
+    if (!post._resolvedBody) {
+      await resolvePostBody(post);
+    }
+    document.getElementById('reader-title').textContent = post.title;
+    document.getElementById('reader-date').textContent = fmtDate(post.date);
+    document.getElementById('reader-read').textContent = readingTime(post._resolvedBody);
+    document.getElementById('reader-tags').innerHTML = (post.tags||[]).map(t=>`<span class="tag">${t}</span>`).join(' ');
+    const rc = document.getElementById('reader-cover');
+    if (post.cover) { rc.style.display='block'; rc.style.backgroundImage = `url("${post.cover}")`; } else { rc.style.display='none'; }
+    document.getElementById('reader-content').innerHTML = mdToHtml(post._resolvedBody);
+    const bd = document.getElementById('reader'); bd.style.display='flex'; bd.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  
   </script>
 
   <footer>
@@ -89,35 +143,5 @@
     </article>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-
-  <script id="posts-fallback" type="application/json">
-{
-  "posts": [
-    {
-      "title": "Bienvenida a Impact11sci",
-      "date": "2025-10-23",
-      "tags": [
-        "Blog",
-        "Novedades"
-      ],
-      "cover": "https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1400&auto=format&fit=crop",
-      "excerpt": "Qué vas a encontrar aquí y cómo seguir las publicaciones semanales.",
-      "content": "Gracias por pasar por **Impact11sci**. Cada semana vas a encontrar noticias de tecnología, IA y tutoriales simples. Si querés algún tema puntual, escribime por correo.\\n\\n- Publicaciones semanales.\\n- Lecturas cortas.\\n- Guías paso a paso."
-    },
-    {
-      "title": "3 ideas para empezar con IA *hoy*",
-      "date": "2025-10-22",
-      "tags": [
-        "IA",
-        "Productividad"
-      ],
-      "cover": "",
-      "excerpt": "Pequeños hábitos que multiplican resultados: resúmenes, estructura de ideas y checklists inteligentes.",
-      "content": "Empezá por lo simple: 1) **Resúmenes** de artículos largos en 5 bullets, 2) **Esqueleto** de un post o presentación antes de escribir, 3) **Checklist** reutilizable para tareas repetitivas.\\n\\n> Lo importante es *sistematizar*.\\n\\n- Probá 15 minutos por día.\\n- Medí qué te ahorra más tiempo."
-    }
-  ]
-}
-  </script>
-
 </body>
 </html>

@@ -38,7 +38,7 @@
     </div>
   </main>
   <script>
-    fetchWithFallback('../data/courses.json','courses-fallback').then(r=>r.json()).then(({courses})=>{
+    fetch('../data/courses.json').then(r=>r.json()).then(({courses})=>{
       const grid = document.getElementById('courses-grid');
       if(!courses || courses.length===0){ grid.innerHTML='<div class="card"><div class="content"><strong>Próximamente</strong><p class="excerpt">Aquí aparecerán tus cursos.</p></div></div>'; return; }
       courses.forEach(c=>{
@@ -73,33 +73,5 @@
     </article>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-
-  <script id="courses-fallback" type="application/json">
-{
-  "courses": [
-    {
-      "title": "Introducción a IA práctica (7 días)",
-      "tags": [
-        "IA",
-        "Principiantes"
-      ],
-      "cover": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1400&auto=format&fit=crop",
-      "excerpt": "Mini-curso con ejercicios cortos para empezar sin matemáticas avanzadas.",
-      "link": ""
-    },
-    {
-      "title": "DevOps sostenible: medir y reducir huella",
-      "tags": [
-        "DevOps",
-        "Sustentabilidad"
-      ],
-      "cover": "",
-      "excerpt": "De la teoría a la práctica: métricas, pipelines y tableros.",
-      "link": ""
-    }
-  ]
-}
-  </script>
-
 </body>
 </html>
