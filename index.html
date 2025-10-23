@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Impact11sci — Tecnología e IA</title>
+  <meta name="description" content="Impact11sci: blog de tecnología, IA y tendencias, explicado simple, cálido e innovador." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Spline+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="nav" aria-label="Barra de navegación">
+        <a class="brand" href="index.html" aria-label="Impact11sci inicio">
+          <img src="assets/img/logo-impact11sci.svg" alt="Impact11sci logo">
+        </a>
+        <div class="menu" role="menubar">
+          <a role="menuitem" href="pages/about.html">Sobre mí</a>
+          <a role="menuitem" href="pages/news.html">Noticias</a>
+          <a role="menuitem" href="pages/blogs.html">Blogs</a>
+          <a role="menuitem" href="pages/courses.html">Cursos</a>
+        </div>
+      </nav>
+
+      <section class="hero" aria-labelledby="tagline">
+        <div class="tagline" id="tagline">Tecnología e IA para personas reales — cálido, visual y útil.</div>
+        <p>Publicaciones diarios en <strong>Impact11sci</strong>: noticias, tutoriales y cursos cortos.</p>
+      </section>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="grid" id="home-grid" aria-live="polite"></section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="year"></span> Impact11sci — Hecho con ❤️ y café.</div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="reader" role="dialog" aria-modal="true" aria-labelledby="reader-title" aria-hidden="true">
+    <article class="modal">
+      <header>
+        <h3 id="reader-title">Título</h3>
+        <button class="close" onclick="closeReader()" aria-label="Cerrar">✕</button>
+      </header>
+      <div class="body">
+        <div class="meta"><span id="reader-date"></span> · <span id="reader-read"></span> · <span id="reader-tags"></span></div>
+        <div id="reader-cover" class="cover" style="border-bottom:1px solid rgba(255,255,255,.08);display:none"></div>
+        <div id="reader-content" class="post-content"></div>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    Promise.all([fetch('data/posts.json'), fetch('data/news.json')])
+      .then(async ([p, n]) => [await p.json(), await n.json()])
+      .then(([posts, news]) => { 
+        const grid = document.getElementById('home-grid');
+        const items = [
+          ...posts.posts.slice(0,3).map(p=>({type:'post', ...p})),
+          ...news.news.slice(0,3).map(p=>({type:'news', ...p}))
+        ].sort((a,b)=> b.date.localeCompare(a.date));
+        if(items.length===0){ grid.innerHTML = '<div class="card"><div class="content"><strong>Bienvenido/a</strong><p class="excerpt">Aún no hay contenido. Cargá tus primeros artículos en data/*.json</p></div></div>'; return;}
+        items.forEach(p=>{
+          const card = document.createElement('article');
+          card.className='card';
+          const cover = document.createElement('a');
+          cover.className='cover'; cover.style.backgroundImage = p.cover ? `url("${p.cover}")` : 'linear-gradient(135deg, rgba(122,168,255,.25), rgba(164,123,255,.25))';
+          cover.href = p.type==='post' ? 'pages/blogs.html' : 'pages/news.html';
+          cover.onclick = (e)=>{ e.preventDefault(); openReader(p); };
+          const box = document.createElement('div'); box.className='content';
+          const meta = `<div class="meta"><span>${new Date(p.date+"T00:00:00").toLocaleDateString('es-AR',{year:'numeric',month:'short',day:'numeric'})}</span>·<span>${(p.tags||[]).join(' • ')}</span></div>`;
+          box.innerHTML = `${meta}<h3 class="title">${p.title}</h3><p class="excerpt">${p.excerpt||''}</p>`;
+          card.append(cover, box); grid.appendChild(card);
+        });
+      }).catch(err=>{
+        console.error(err);
+        document.getElementById('home-grid').innerHTML = '<div class="card"><div class="content"><strong>Error</strong><p class="excerpt">No pudimos cargar los contenidos.</p></div></div>';
+      });
+  </script>
+</body>
+</html>
