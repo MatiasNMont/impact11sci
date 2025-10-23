@@ -1,0 +1,24 @@
+{
+  "courses": [
+    {
+      "title": "Introducción a IA práctica (7 días)",
+      "tags": [
+        "IA",
+        "Principiantes"
+      ],
+      "cover": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1400&auto=format&fit=crop",
+      "excerpt": "Mini-curso con ejercicios cortos para empezar sin matemáticas avanzadas.",
+      "link": ""
+    },
+    {
+      "title": "DevOps sostenible: medir y reducir huella",
+      "tags": [
+        "DevOps",
+        "Sustentabilidad"
+      ],
+      "cover": "",
+      "excerpt": "De la teoría a la práctica: métricas, pipelines y tableros.",
+      "link": ""
+    }
+  ]
+}

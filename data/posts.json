@@ -1,0 +1,26 @@
+{
+  "posts": [
+    {
+      "title": "Bienvenida a Impact11sci",
+      "date": "2025-10-23",
+      "tags": [
+        "Blog",
+        "Novedades"
+      ],
+      "cover": "https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1400&auto=format&fit=crop",
+      "excerpt": "Qué vas a encontrar aquí y cómo seguir las publicaciones semanales.",
+      "content": "Gracias por pasar por **Impact11sci**. Cada semana vas a encontrar noticias de tecnología, IA y tutoriales simples. Si querés algún tema puntual, escribime por correo.\\n\\n- Publicaciones semanales.\\n- Lecturas cortas.\\n- Guías paso a paso."
+    },
+    {
+      "title": "3 ideas para empezar con IA *hoy*",
+      "date": "2025-10-22",
+      "tags": [
+        "IA",
+        "Productividad"
+      ],
+      "cover": "",
+      "excerpt": "Pequeños hábitos que multiplican resultados: resúmenes, estructura de ideas y checklists inteligentes.",
+      "content": "Empezá por lo simple: 1) **Resúmenes** de artículos largos en 5 bullets, 2) **Esqueleto** de un post o presentación antes de escribir, 3) **Checklist** reutilizable para tareas repetitivas.\\n\\n> Lo importante es *sistematizar*.\\n\\n- Probá 15 minutos por día.\\n- Medí qué te ahorra más tiempo."
+    }
+  ]
+}

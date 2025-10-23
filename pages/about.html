@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sobre mí — Impact11sci</title>
+  <meta name="description" content="Impact11sci: blog de tecnología, IA y tendencias, explicado simple, cálido e innovador." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Spline+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../assets/js/app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="nav" aria-label="Barra de navegación">
+        <a class="brand" href="../index.html" aria-label="Impact11sci inicio">
+          <img src="../assets/img/logo-impact11sci.svg" alt="Impact11sci logo">
+        </a>
+        <div class="menu" role="menubar">
+          <a role="menuitem" href="../pages/about.html" class="active">Sobre mí</a>
+          <a role="menuitem" href="../pages/news.html" class="">Noticias</a>
+          <a role="menuitem" href="../pages/blogs.html" class="">Blogs</a>
+          <a role="menuitem" href="../pages/courses.html" class="">Cursos</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <div class="tagline">Hola, soy Impact11sci.</div>
+        <p>Comparto novedades de tecnología, inteligencia artificial y herramientas útiles, con un enfoque humano, cálido y práctico.</p>
+      </section>
+      <section>
+        <h2>Mi enfoque</h2>
+        <p class="excerpt">Lenguaje claro, ejemplos simples y contenido accionable. Sin humo.</p>
+        <h2>Contacto</h2>
+        <p class="excerpt">Escribime a <a href="mailto:tu-email@example.com">tu-email@example.com</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="year"></span> Impact11sci — Hecho con ❤️ y café.</div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="reader" role="dialog" aria-modal="true" aria-labelledby="reader-title" aria-hidden="true">
+    <article class="modal">
+      <header>
+        <h3 id="reader-title">Título</h3>
+        <button class="close" onclick="closeReader()" aria-label="Cerrar">✕</button>
+      </header>
+      <div class="body">
+        <div class="meta"><span id="reader-date"></span> · <span id="reader-read"></span> · <span id="reader-tags"></span></div>
+        <div id="reader-cover" class="cover" style="border-bottom:1px solid rgba(255,255,255,.08);display:none"></div>
+        <div id="reader-content" class="post-content"></div>
+      </div>
+    </article>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

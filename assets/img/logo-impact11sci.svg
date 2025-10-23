@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Impact11sci logo">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="220" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7AA8FF"/>
+      <stop offset="1" stop-color="#A47BFF"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#glow)">
+    <path d="M28 6 L48 18 L48 42 L28 54 L8 42 L8 18 Z" fill="url(#g1)" opacity="0.95"/>
+    <rect x="20" y="18" width="4" height="24" rx="2" fill="#0B0E1B"/>
+    <rect x="32" y="18" width="4" height="24" rx="2" fill="#0B0E1B"/>
+  </g>
+  <g transform="translate(64,14)">
+    <text x="0" y="18" font-family="Spline Sans, Inter, system-ui" font-size="20" font-weight="800" fill="url(#g1)">Impact11sci</text>
+    <text x="0" y="36" font-family="Inter, system-ui" font-size="12" fill="#B8BFD2">Ideas cálidas, tecnología con impacto</text>
+  </g>
+</svg>

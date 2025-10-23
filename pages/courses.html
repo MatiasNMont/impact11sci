@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cursos — Impact11sci</title>
+  <meta name="description" content="Impact11sci: blog de tecnología, IA y tendencias, explicado simple, cálido e innovador." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Spline+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../assets/js/app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="nav" aria-label="Barra de navegación">
+        <a class="brand" href="../index.html" aria-label="Impact11sci inicio">
+          <img src="../assets/img/logo-impact11sci.svg" alt="Impact11sci logo">
+        </a>
+        <div class="menu" role="menubar">
+          <a role="menuitem" href="../pages/about.html" class="">Sobre mí</a>
+          <a role="menuitem" href="../pages/news.html" class="">Noticias</a>
+          <a role="menuitem" href="../pages/blogs.html" class="">Blogs</a>
+          <a role="menuitem" href="../pages/courses.html" class="active">Cursos</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <div class="tagline">Cursos cortos y prácticos</div>
+        <p>Pequeños cursos con lecciones claras, pensados para empezar hoy.</p>
+      </section>
+      <section class="grid" id="courses-grid" aria-live="polite"></section>
+    </div>
+  </main>
+  <script>
+    fetchWithFallback('../data/courses.json','courses-fallback').then(r=>r.json()).then(({courses})=>{
+      const grid = document.getElementById('courses-grid');
+      if(!courses || courses.length===0){ grid.innerHTML='<div class="card"><div class="content"><strong>Próximamente</strong><p class="excerpt">Aquí aparecerán tus cursos.</p></div></div>'; return; }
+      courses.forEach(c=>{
+        const card = document.createElement('article'); card.className='card';
+        const cover = document.createElement('a'); cover.className='cover'; cover.style.backgroundImage = c.cover ? `url("${c.cover}")` : 'linear-gradient(135deg, rgba(122,168,255,.25), rgba(164,123,255,.25))';
+        cover.href = c.link || '#'; cover.target = c.link ? '_blank' : '_self';
+        const box = document.createElement('div'); box.className='content';
+        const meta = `<div class="meta"><span>${(c.tags||[]).join(' • ')}</span></div>`;
+        box.innerHTML = meta + `<h3 class="title">${c.title}</h3><p class="excerpt">${c.excerpt||''}</p>`;
+        card.append(cover, box); grid.appendChild(card);
+      });
+    });
+  </script>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="year"></span> Impact11sci — Hecho con ❤️ y café.</div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="reader" role="dialog" aria-modal="true" aria-labelledby="reader-title" aria-hidden="true">
+    <article class="modal">
+      <header>
+        <h3 id="reader-title">Título</h3>
+        <button class="close" onclick="closeReader()" aria-label="Cerrar">✕</button>
+      </header>
+      <div class="body">
+        <div class="meta"><span id="reader-date"></span> · <span id="reader-read"></span> · <span id="reader-tags"></span></div>
+        <div id="reader-cover" class="cover" style="border-bottom:1px solid rgba(255,255,255,.08);display:none"></div>
+        <div id="reader-content" class="post-content"></div>
+      </div>
+    </article>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+  <script id="courses-fallback" type="application/json">
+{
+  "courses": [
+    {
+      "title": "Introducción a IA práctica (7 días)",
+      "tags": [
+        "IA",
+        "Principiantes"
+      ],
+      "cover": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1400&auto=format&fit=crop",
+      "excerpt": "Mini-curso con ejercicios cortos para empezar sin matemáticas avanzadas.",
+      "link": ""
+    },
+    {
+      "title": "DevOps sostenible: medir y reducir huella",
+      "tags": [
+        "DevOps",
+        "Sustentabilidad"
+      ],
+      "cover": "",
+      "excerpt": "De la teoría a la práctica: métricas, pipelines y tableros.",
+      "link": ""
+    }
+  ]
+}
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blogs — Impact11sci</title>
+  <meta name="description" content="Impact11sci: blog de tecnología, IA y tendencias, explicado simple, cálido e innovador." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Spline+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../assets/js/app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="nav" aria-label="Barra de navegación">
+        <a class="brand" href="../index.html" aria-label="Impact11sci inicio">
+          <img src="../assets/img/logo-impact11sci.svg" alt="Impact11sci logo">
+        </a>
+        <div class="menu" role="menubar">
+          <a role="menuitem" href="../pages/about.html" class="">Sobre mí</a>
+          <a role="menuitem" href="../pages/news.html" class="">Noticias</a>
+          <a role="menuitem" href="../pages/blogs.html" class="active">Blogs</a>
+          <a role="menuitem" href="../pages/courses.html" class="">Cursos</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <div class="tagline">Entradas del blog</div>
+        <p>Guías y reflexiones de tecnología e inteligencia artificial.</p>
+      </section>
+      <div class="toolbar">
+        <div class="field">🔎 <input id="q" type="search" placeholder="Buscar en blogs" oninput="renderBlogs()"/></div>
+        <select id="sort" class="sort" onchange="renderBlogs()">
+          <option value="new">Más recientes</option>
+          <option value="old">Más antiguas</option>
+          <option value="title">Título (A–Z)</option>
+        </select>
+      </div>
+      <section class="grid" id="blog-grid" aria-live="polite"></section>
+    </div>
+  </main>
+  <script>
+    let POSTS = [];
+    function renderBlogs(){
+      const grid = document.getElementById('blog-grid'); grid.innerHTML='';
+      const q = (document.getElementById('q').value||'').toLowerCase().trim();
+      const order = document.getElementById('sort').value;
+      let items = POSTS.filter(n => [n.title,n.excerpt,n.content,(n.tags||[]).join(' ')].some(x => (x||'').toLowerCase().includes(q)));
+      if(order==='old') items.sort((a,b)=> a.date.localeCompare(b.date));
+      else if(order==='title') items.sort((a,b)=> a.title.localeCompare(b.title,'es'));
+      else items.sort((a,b)=> b.date.localeCompare(a.date));
+      if(items.length===0){ grid.innerHTML = '<div class="card"><div class="content"><strong>Sin resultados</strong><p class="excerpt">Probá otra búsqueda.</p></div></div>'; return; }
+      items.forEach(p=>{
+        const card = document.createElement('article'); card.className='card';
+        const cover = document.createElement('a'); cover.className='cover'; cover.style.backgroundImage = p.cover ? `url("${p.cover}")` : 'linear-gradient(135deg, rgba(122,168,255,.25), rgba(164,123,255,.25))';
+        cover.href='#'; cover.onclick=(e)=>{e.preventDefault(); openReader(p);};
+        const box = document.createElement('div'); box.className='content';
+        const meta = `<div class="meta"><span>${fmtDate(p.date)}</span>·<span>${(p.tags||[]).join(' • ')}</span></div>`;
+        box.innerHTML = meta + `<h3 class="title">${p.title}</h3><p class="excerpt">${p.excerpt||''}</p>`;
+        card.append(cover, box); grid.appendChild(card);
+      });
+    }
+    fetchWithFallback('../data/posts.json','posts-fallback').then(r=>r.json()).then(json=>{ POSTS = json.posts; renderBlogs(); });
+  </script>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="year"></span> Impact11sci — Hecho con ❤️ y café.</div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="reader" role="dialog" aria-modal="true" aria-labelledby="reader-title" aria-hidden="true">
+    <article class="modal">
+      <header>
+        <h3 id="reader-title">Título</h3>
+        <button class="close" onclick="closeReader()" aria-label="Cerrar">✕</button>
+      </header>
+      <div class="body">
+        <div class="meta"><span id="reader-date"></span> · <span id="reader-read"></span> · <span id="reader-tags"></span></div>
+        <div id="reader-cover" class="cover" style="border-bottom:1px solid rgba(255,255,255,.08);display:none"></div>
+        <div id="reader-content" class="post-content"></div>
+      </div>
+    </article>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+  <script id="posts-fallback" type="application/json">
+{
+  "posts": [
+    {
+      "title": "Bienvenida a Impact11sci",
+      "date": "2025-10-23",
+      "tags": [
+        "Blog",
+        "Novedades"
+      ],
+      "cover": "https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1400&auto=format&fit=crop",
+      "excerpt": "Qué vas a encontrar aquí y cómo seguir las publicaciones semanales.",
+      "content": "Gracias por pasar por **Impact11sci**. Cada semana vas a encontrar noticias de tecnología, IA y tutoriales simples. Si querés algún tema puntual, escribime por correo.\\n\\n- Publicaciones semanales.\\n- Lecturas cortas.\\n- Guías paso a paso."
+    },
+    {
+      "title": "3 ideas para empezar con IA *hoy*",
+      "date": "2025-10-22",
+      "tags": [
+        "IA",
+        "Productividad"
+      ],
+      "cover": "",
+      "excerpt": "Pequeños hábitos que multiplican resultados: resúmenes, estructura de ideas y checklists inteligentes.",
+      "content": "Empezá por lo simple: 1) **Resúmenes** de artículos largos en 5 bullets, 2) **Esqueleto** de un post o presentación antes de escribir, 3) **Checklist** reutilizable para tareas repetitivas.\\n\\n> Lo importante es *sistematizar*.\\n\\n- Probá 15 minutos por día.\\n- Medí qué te ahorra más tiempo."
+    }
+  ]
+}
+  </script>
+
+</body>
+</html>
